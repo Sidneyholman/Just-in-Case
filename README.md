@@ -1,3 +1,73 @@
-# Arduino
-Our hack was to create a phone case that would help consumers in emergency situations send out their location to authorities and loved ones using bluetooth to communicate with an app (that would have to be developed in the future, but would not be our focus at the time) that would carry out these functions. We designed a phone case with two buttons, one to send location and an assuring message to authorities and loved ones, and another to ask for help and send out location in dire situations. Our first plan was to get an Arduino 101 and light up two LED's with two buttons, to make sure the buttons functioned correctly. But we could not get the Arduino 101 to work through extensive trial and error, so we moved onto Elizabeth's Arduino Uno and attempted to get the buttons and LED's to function correctly. Our code and hardware configuration was reviewed by multiple mentors who have had experience with Arduino's, however they have determined that there is an underlying mysterious issue that could not be found. We reconfigured the circuit and components multiple times, attended workshops related to hardware hacking, but still could not find the actual issue. So we moved onto a Redboard Elizabeth brought. We worked on displaying the two different emergency messages discussed earlier on an LCD, each controlled by a button, the messages being "I'm okay" and "I'm not okay". We got the basic LCD display to work and to display one of these messages, but could not figure out how to control it with the buttons. A mentor reviewed our code and determined that it was not the cause of our issue. After comparing the issues with the Redboard and the Arduino Uno, we concluded that they were very closely related.
+
+#include <LiquidCrystal.h>
+
+// initialize the library by associating any needed LCD interface pin
+// with the arduino pin number it is connected to
+const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+
+// button stuff
+const int buttonPin = 6;
+      //const int lcdPin; 
+int buttonState;
+  
+
+
+void setup() {
+  // set up the LCD's number of columns and rows:
+      //lcd.begin(16, 2);
+  
+  //BUTTON
+   pinMode(buttonPin, INPUT);
+      //pinMode(lcdPin, OUTPUT);
+  lcd.clear();
+}
+
+void loop() {
+  lcd.setCursor(0, 1);
+  
+// EVERYTHING BEFORE THIS WORKS - BELOW IS BUTTONS
+
+buttonState = digitalRead(buttonPin);
+ if (buttonState == HIGH) {
+    lcd.print("I'm okay");
+    delay (2000);
+    lcd.clear();
+    
+   //digitalWrite(lcdPin, HIGH);
+   
+  } else {
+    
+   //digitalWrite(lcdPin, LOW);
+ }
+ 
+ }
+
+//The next part is the code for the Arduino Uno 
+
+int greenCircuit = 2;
+int redCircuit = 3;
+int buttonRed = 7;
+int buttonGreen = 8;
+int valRed;
+int valGreen;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(greenCircuit, OUTPUT);
+  pinMode(redCircuit, OUTPUT);
+  pinMode(buttonRed, INPUT);
+  pinMode(buttonGreen, INPUT);
+}
+
+void loop() {
+  valRed = digitalRead(buttonRed);
+  valGreen = digitalRead(buttonGreen);
+  
+  Serial.print("RED: ");
+  Serial.println(valRed);
+  Serial.print("GREEN: ");
+  Serial.println(valGreen);
+}
+
  
